@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>gov.nih.niehs.ods</groupId>
 		<artifactId>ga4gh-dos</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.0.2-SNAPSHOT</version>
 	</parent>
 	<artifactId>ga4gh-common</artifactId>
 	<name>ga4gh data object service common</name>

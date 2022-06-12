@@ -4,15 +4,15 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>gov.nih.niehs.ods</groupId>
 	<artifactId>ga4gh-dos</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>ga4gh data object service</name>
 	<packaging>pom</packaging>
 	<properties>
-		<java.version>1.8</java.version>
+		<java.version>11</java.version>
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 		<springfox-version>2.7.0</springfox-version>
-		<jargon.version>4.3.1.0-SNAPSHOT</jargon.version>
+		<jargon.version>4.3.2.6-SNAPSHOT</jargon.version>
 		<spring.security.version>4.2.4.RELEASE</spring.security.version>
 		<spring.boot.starter.version>1.5.9.RELEASE</spring.boot.starter.version>
 	</properties>
