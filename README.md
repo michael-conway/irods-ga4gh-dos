@@ -23,9 +23,7 @@ This release implements the 1.2.0 DRS specification (https://ga4gh.github.io/dat
 
 
 
-
 ## Features
-
 
 
 ## Requirements
