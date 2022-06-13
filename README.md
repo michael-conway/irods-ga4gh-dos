@@ -1,4 +1,4 @@
-<h1 align="center"> Project Title </h1> <br>
+<h1 align="center"> GA4GH Data Repository Service for iRODS </h1> <br>
 
 <p align="center">
   GA4GH Data Repository Service for iRODS
