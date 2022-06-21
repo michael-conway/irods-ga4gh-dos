@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>gov.nih.niehs.ods</groupId>
-		<artifactId>ga4gh-dos</artifactId>
+		<artifactId>ga4gh-drs</artifactId>
 		<version>0.0.2-SNAPSHOT</version>
 	</parent>
 	<artifactId>ga4gh-bundle-management-service</artifactId>
@@ -184,6 +184,7 @@
 									default.storage.resource=${jargon.test.irods.resource}
 									ssl.negotiation.policy=${ssl.negotiation.policy}
 									drs.rest.url.endpoint=${drs.rest.url.endpoint}
+									drs.server.name=${drs.server.name}
 									drs.provide.irods.urls=true
 									irods.realm=irods
 									web.interface.url=${web.interface.url}

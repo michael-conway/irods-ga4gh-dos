@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>gov.nih.niehs.ods</groupId>
-		<artifactId>ga4gh-dos</artifactId>
+		<artifactId>ga4gh-drs</artifactId>
 		<version>0.0.2-SNAPSHOT</version>
 	</parent>
 	<artifactId>ga4gh-console</artifactId>

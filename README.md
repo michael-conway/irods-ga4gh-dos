@@ -22,7 +22,6 @@ These libraries provide an implementation of the GA4GH Data Repository Service f
 This release implements the 1.2.0 DRS specification (https://ga4gh.github.io/data-repository-service-schemas/preview/develop/docs/)
 
 
-
 ## Features
 
 
@@ -67,3 +66,11 @@ Configure the port by changing `services.api.ports` in __docker-compose.yml__. P
 
 
 ## Testing
+
+(work in progress..bear with us, we will pull this all together)
+
+JUnit testing of the components of the DRS iRODS implementation follow the approach of the underlying Jargon libraries. See this general guide: https://github.com/DICE-UNC/jargon/blob/master/docker-test-framework/DOCKERTEST.md
+
+Maven is used for building, and has a capability to generate testing.properties files that are used by the unit testing framework. There is a standard settings.xml profile that can be activated and will work with the dockerized iRODS testing framework, see: https://github.com/DICE-UNC/jargon/tree/master/docker-test-framework
+
+

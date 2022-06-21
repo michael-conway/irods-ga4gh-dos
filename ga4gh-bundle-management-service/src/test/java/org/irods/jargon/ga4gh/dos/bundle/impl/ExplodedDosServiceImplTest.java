@@ -81,6 +81,7 @@ public class ExplodedDosServiceImplTest {
 		String bundleRoot = irodsCollectionRootAbsolutePath + "/" + bundleDir;
 		DosConfiguration dosConfiguration = new DosConfiguration();
 		dosConfiguration.setDrsRestUrlEndpoint("http://www.example.com/rest/fileStream?path=");
+		dosConfiguration.setDrsServerUrl("test");
 		DosServiceFactory factory = new ExplodedDosServiceFactoryImpl(irodsFileSystem.getIRODSAccessObjectFactory());
 		factory.setDosConfiguration(dosConfiguration);
 
@@ -249,6 +250,7 @@ public class ExplodedDosServiceImplTest {
 
 		String bundleRoot = irodsCollectionRootAbsolutePath + "/" + bundleDir;
 		DosConfiguration dosConfiguration = new DosConfiguration();
+		dosConfiguration.setDrsServerUrl("hello");
 		dosConfiguration.setDrsRestUrlEndpoint("http://www.example.com/rest/fileStream?path=");
 		DosServiceFactory factory = new ExplodedDosServiceFactoryImpl(irodsFileSystem.getIRODSAccessObjectFactory());
 		factory.setDosConfiguration(dosConfiguration);
@@ -276,7 +278,7 @@ public class ExplodedDosServiceImplTest {
 		Assert.assertFalse("no file name", actual.getFileName().isEmpty());
 
 		IrodsAccessMethod irodsAccessMethod = dataBundles.get(0).getIrodsAccessMethods().get(0);
-		Assert.assertEquals("/objects/" + actual.getGuid(), irodsAccessMethod.getUrl());
+		Assert.assertEquals("drs://hello/objects/" + actual.getGuid(), irodsAccessMethod.getUrl());
 
 	}
 

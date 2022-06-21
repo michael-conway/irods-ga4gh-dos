@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
  *
  */
 
-@PropertySources({ @PropertySource(value = "classpath:/test.dos.properties", ignoreResourceNotFound = true),
+@PropertySources({ @PropertySource(value = "/test.dos.properties", ignoreResourceNotFound = true),
 		@PropertySource(value = "file:/etc/irods-ext/ga4gh.properties", ignoreResourceNotFound = true) })
 
 @Component

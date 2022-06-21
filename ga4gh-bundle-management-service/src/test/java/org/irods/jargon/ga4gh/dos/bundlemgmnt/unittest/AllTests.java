@@ -7,7 +7,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ DataBundleChecksumVisitorTest.class, ExplodedDosBundleManagementServiceImplTest.class })
+@SuiteClasses({ DataBundleChecksumVisitorTest.class, ExplodedDosBundleManagementServiceImplTest.class, DataBundleChecksumVisitorTest.class, ExplodedDosBundleManagementServiceImplTest.class })
 public class AllTests {
 
 }
