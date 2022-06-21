@@ -4,9 +4,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import org.irods.jargon.ga4gh.dos.model.AccessURL;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -15,7 +13,8 @@ import javax.validation.constraints.*;
  * AccessMethod
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-08-22T19:13:50.266Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2022-06-13T12:08:45.878Z[GMT]")
+
 
 public class AccessMethod   {
   /**
@@ -60,7 +59,6 @@ public class AccessMethod   {
       return null;
     }
   }
-
   @JsonProperty("type")
   private TypeEnum type = null;
 
@@ -81,12 +79,11 @@ public class AccessMethod   {
   /**
    * Type of the access method.
    * @return type
-  **/
-  @ApiModelProperty(required = true, value = "Type of the access method.")
-  @NotNull
+   **/
+  @Schema(required = true, description = "Type of the access method.")
+      @NotNull
 
-
-  public TypeEnum getType() {
+    public TypeEnum getType() {
     return type;
   }
 
@@ -100,14 +97,13 @@ public class AccessMethod   {
   }
 
   /**
-   * An `AccessURL` that can be used to fetch the actual object bytes. Note that at least one of `access_url` and `access_id` must be provided.
+   * Get accessUrl
    * @return accessUrl
-  **/
-  @ApiModelProperty(value = "An `AccessURL` that can be used to fetch the actual object bytes. Note that at least one of `access_url` and `access_id` must be provided.")
-
-  @Valid
-
-  public AccessURL getAccessUrl() {
+   **/
+  @Schema(description = "")
+  
+    @Valid
+    public AccessURL getAccessUrl() {
     return accessUrl;
   }
 
@@ -123,11 +119,10 @@ public class AccessMethod   {
   /**
    * An arbitrary string to be passed to the `/access` method to get an `AccessURL`. This string must be unique within the scope of a single object. Note that at least one of `access_url` and `access_id` must be provided.
    * @return accessId
-  **/
-  @ApiModelProperty(value = "An arbitrary string to be passed to the `/access` method to get an `AccessURL`. This string must be unique within the scope of a single object. Note that at least one of `access_url` and `access_id` must be provided.")
-
-
-  public String getAccessId() {
+   **/
+  @Schema(description = "An arbitrary string to be passed to the `/access` method to get an `AccessURL`. This string must be unique within the scope of a single object. Note that at least one of `access_url` and `access_id` must be provided.")
+  
+    public String getAccessId() {
     return accessId;
   }
 
@@ -143,11 +138,10 @@ public class AccessMethod   {
   /**
    * Name of the region in the cloud service provider that the object belongs to.
    * @return region
-  **/
-  @ApiModelProperty(example = "us-east-1", value = "Name of the region in the cloud service provider that the object belongs to.")
-
-
-  public String getRegion() {
+   **/
+  @Schema(example = "us-east-1", description = "Name of the region in the cloud service provider that the object belongs to.")
+  
+    public String getRegion() {
     return region;
   }
 
@@ -200,4 +194,3 @@ public class AccessMethod   {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

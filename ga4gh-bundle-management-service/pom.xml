@@ -150,9 +150,6 @@
 									test.option.gsi.file=${test.option.gsi.file}
 									test.option.mount.basedir=${test.option.mount.basedir}
 									test.option.python=${test.option.python}
-
-
-
 								</echo>
 							</tasks>
 						</configuration>
