@@ -3,12 +3,14 @@ package org.irods.jargon.ga4gh.dos.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-
 import io.swagger.v3.oas.annotations.media.Schema;
-
-import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import org.irods.jargon.ga4gh.dos.model.AccessMethod;
+import org.irods.jargon.ga4gh.dos.model.Checksum;
+import org.irods.jargon.ga4gh.dos.model.ContentsObject;
+import org.threeten.bp.OffsetDateTime;
+import java.io.Serializable;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -17,10 +19,12 @@ import javax.validation.constraints.*;
  * DrsObject
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2022-06-13T12:08:45.878Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2022-06-22T12:15:59.889Z[GMT]")
 
 
-public class DrsObject   {
+public class DrsObject  implements Serializable  {
+  private static final long serialVersionUID = 1L;
+
   @JsonProperty("id")
   private String id = null;
 
@@ -34,10 +38,10 @@ public class DrsObject   {
   private Long size = null;
 
   @JsonProperty("created_time")
-  private OffsetDateTime createdTime = null;
+  private java.time.OffsetDateTime createdTime = null;
 
   @JsonProperty("updated_time")
-  private OffsetDateTime updatedTime = null;
+  private java.time.OffsetDateTime updatedTime = null;
 
   @JsonProperty("version")
   private String version = null;
@@ -143,7 +147,7 @@ public class DrsObject   {
     this.size = size;
   }
 
-  public DrsObject createdTime(OffsetDateTime createdTime) {
+  public DrsObject createdTime(java.time.OffsetDateTime createdTime) {
     this.createdTime = createdTime;
     return this;
   }
@@ -156,15 +160,15 @@ public class DrsObject   {
       @NotNull
 
     @Valid
-    public OffsetDateTime getCreatedTime() {
+    public java.time.OffsetDateTime getCreatedTime() {
     return createdTime;
   }
 
-  public void setCreatedTime(OffsetDateTime createdTime) {
-    this.createdTime = createdTime;
+  public void setCreatedTime(java.time.OffsetDateTime offsetDateTime) {
+    this.createdTime = offsetDateTime;
   }
 
-  public DrsObject updatedTime(OffsetDateTime updatedTime) {
+  public DrsObject updatedTime(java.time.OffsetDateTime updatedTime) {
     this.updatedTime = updatedTime;
     return this;
   }
@@ -176,12 +180,12 @@ public class DrsObject   {
   @Schema(description = "Timestamp of content update in RFC3339, identical to `created_time` in systems that do not support updates. (This is the update time of the underlying content, not of the JSON object.)")
   
     @Valid
-    public OffsetDateTime getUpdatedTime() {
+    public java.time.OffsetDateTime getUpdatedTime() {
     return updatedTime;
   }
 
-  public void setUpdatedTime(OffsetDateTime updatedTime) {
-    this.updatedTime = updatedTime;
+  public void setUpdatedTime(java.time.OffsetDateTime offsetDateTime) {
+    this.updatedTime = offsetDateTime;
   }
 
   public DrsObject version(String version) {

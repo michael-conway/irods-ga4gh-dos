@@ -14,12 +14,29 @@
 		<jargon.version>4.3.2.6-SNAPSHOT</jargon.version>
 		<spring.security.version>4.2.4.RELEASE</spring.security.version>
 		<spring.boot.starter.version>1.5.9.RELEASE</spring.boot.starter.version>
+		<springdoc-version>1.2.9</springdoc-version>
 	</properties>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.9.RELEASE</version>
+		<version>1.5.22.RELEASE</version>
 	</parent>
+	 <profiles>
+        <profile>
+            <id>jdk11</id>
+            <activation>
+                <jdk>[11,)</jdk>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>com.sun.xml.ws</groupId>
+                    <artifactId>jaxws-rt</artifactId>
+                    <version>2.3.3</version>
+                    <type>pom</type>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -53,28 +70,6 @@
 				<artifactId>mockito-all</artifactId>
 				<version>1.10.19</version>
 				<scope>test</scope>
-			</dependency>
-			<!-- https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java -->
-			<dependency>
-				<groupId>com.google.protobuf</groupId>
-				<artifactId>protobuf-java</artifactId>
-				<version>3.5.1</version>
-			</dependency>
-			<!--SpringFox dependencies -->
-			<dependency>
-				<groupId>io.springfox</groupId>
-				<artifactId>springfox-swagger2</artifactId>
-				<version>${springfox-version}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.springfox</groupId>
-				<artifactId>springfox-swagger-ui</artifactId>
-				<version>${springfox-version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.github.joschi.jackson</groupId>
-				<artifactId>jackson-datatype-threetenbp</artifactId>
-				<version>2.6.4</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

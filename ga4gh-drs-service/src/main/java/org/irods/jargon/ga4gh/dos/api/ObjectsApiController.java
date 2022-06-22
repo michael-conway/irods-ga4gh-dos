@@ -1,17 +1,5 @@
 package org.irods.jargon.ga4gh.dos.api;
 
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-
 import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.connection.IRODSSession;
 import org.irods.jargon.ga4gh.dos.bundle.DosService;
@@ -27,9 +15,20 @@ import org.irods.jargon.ga4gh.dos.model.AccessURL;
 import org.irods.jargon.ga4gh.dos.model.Checksum;
 import org.irods.jargon.ga4gh.dos.model.ContentsObject;
 import org.irods.jargon.ga4gh.dos.model.DrsObject;
-import org.irods.jargon.ga4gh.dos.model.Ga4ghObject;
+import org.irods.jargon.ga4gh.dos.model.Error;
 import org.irods.jargon.ga4gh.dos.security.ContextAccountHelper;
 import org.irods.jargon.ga4gh.dos.utils.ServiceUtils;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,12 +49,13 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Optional;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2022-06-13T12:08:45.878Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2022-06-22T12:15:59.889Z[GMT]")
 @RestController
 public class ObjectsApiController implements ObjectsApi {
 
@@ -66,20 +66,17 @@ public class ObjectsApiController implements ObjectsApi {
     private final HttpServletRequest request;
     
     @Autowired
-	private DosServiceFactory dosServiceFactory;
+   	private DosServiceFactory dosServiceFactory;
 
-	@Autowired
-	private ContextAccountHelper contextAccountHelper;
+   	@Autowired
+   	private ContextAccountHelper contextAccountHelper;
 
-	@Autowired
-	private DosConfiguration dosConfiguration;
+   	@Autowired
+   	private DosConfiguration dosConfiguration;
 
-	@Autowired
-	private IRODSSession irodsSession;
-    
-   
-
-	
+   	@Autowired
+   	private IRODSSession irodsSession;
+       
 
     @org.springframework.beans.factory.annotation.Autowired
     public ObjectsApiController(ObjectMapper objectMapper, HttpServletRequest request) {
@@ -87,99 +84,109 @@ public class ObjectsApiController implements ObjectsApi {
         this.request = request;
     }
 
+    @Override
+    public Optional<ObjectMapper> getObjectMapper() {
+        return Optional.ofNullable(objectMapper);
+    }
+
+    @Override
+    public Optional<HttpServletRequest> getRequest() {
+        return Optional.ofNullable(request);
+    }
+
     public ResponseEntity<AccessURL> getAccessURL(@Parameter(in = ParameterIn.PATH, description = "`DrsObject` identifier", required=true, schema=@Schema()) @PathVariable("object_id") String objectId,@Parameter(in = ParameterIn.PATH, description = "An `access_id` from the `access_methods` list of a `DrsObject`", required=true, schema=@Schema()) @PathVariable("access_id") String accessId) {
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            try {
+    	 String accept = request.getHeader("Accept");
+         if (accept != null && accept.contains("application/json")) {
+             try {
 
-				Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-				String name = auth.getName();
-				log.info("name:{}", name);
-				IRODSAccount irodsAccount = this.contextAccountHelper.irodsAccountFromAuthentication(name);
+ 				Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+ 				String name = auth.getName();
+ 				log.info("name:{}", name);
+ 				IRODSAccount irodsAccount = this.contextAccountHelper.irodsAccountFromAuthentication(name);
 
-				log.debug("irodsAccount:{}", irodsAccount);
+ 				log.debug("irodsAccount:{}", irodsAccount);
 
-				DosService dosService = dosServiceFactory.instanceDosService(irodsAccount);
+ 				DosService dosService = dosServiceFactory.instanceDosService(irodsAccount);
 
-				try {
-					IrodsAccessMethod irodsAccessMethod = dosService.createAccessUrlForDataObject(objectId, accessId);
-					AccessURL accessUrl = new AccessURL();
-					accessUrl.setHeaders(new ArrayList<String>());
-					accessUrl.setUrl(irodsAccessMethod.getUrl());
+ 				try {
+ 					IrodsAccessMethod irodsAccessMethod = dosService.createAccessUrlForDataObject(objectId, accessId);
+ 					AccessURL accessUrl = new AccessURL();
+ 					accessUrl.setHeaders(new ArrayList<String>());
+ 					accessUrl.setUrl(irodsAccessMethod.getUrl());
 
-					for (String header : irodsAccessMethod.getHeaders()) {
-						accessUrl.getHeaders().add(header);
-					}
+ 					for (String header : irodsAccessMethod.getHeaders()) {
+ 						accessUrl.getHeaders().add(header);
+ 					}
 
-					log.info("accessUrl:{}", accessUrl);
-					return new ResponseEntity<AccessURL>(accessUrl, HttpStatus.OK);
+ 					log.info("accessUrl:{}", accessUrl);
+ 					return new ResponseEntity<AccessURL>(accessUrl, HttpStatus.OK);
 
-				} catch (DosDataNotFoundException e) {
-					log.error("Data not found for id", e);
-					return new ResponseEntity<AccessURL>(HttpStatus.NOT_FOUND);
-				}
+ 				} catch (DosDataNotFoundException e) {
+ 					log.error("Data not found for id", e);
+ 					return new ResponseEntity<AccessURL>(HttpStatus.NOT_FOUND);
+ 				}
 
-			} catch (Exception e) {
-				log.error("Couldn't serialize response for content type application/json", e);
-				return new ResponseEntity<AccessURL>(HttpStatus.INTERNAL_SERVER_ERROR);
-			}
-        }
+ 			} catch (Exception e) {
+ 				log.error("Couldn't serialize response for content type application/json", e);
+ 				return new ResponseEntity<AccessURL>(HttpStatus.INTERNAL_SERVER_ERROR);
+ 			}
+         }
 
-        return new ResponseEntity<AccessURL>(HttpStatus.NOT_IMPLEMENTED);
+         return new ResponseEntity<AccessURL>(HttpStatus.NOT_IMPLEMENTED);
     }
 
     public ResponseEntity<DrsObject> getObject(@Parameter(in = ParameterIn.PATH, description = "`DrsObject` identifier", required=true, schema=@Schema()) @PathVariable("object_id") String objectId,@Parameter(in = ParameterIn.QUERY, description = "If false and the object_id refers to a bundle, then the ContentsObject array contains only those objects directly contained in the bundle. That is, if the bundle contains other bundles, those other bundles are not recursively included in the result. If true and the object_id refers to a bundle, then the entire set of objects in the bundle is expanded. That is, if the bundle contains aother bundles, then those other bundles are recursively expanded and included in the result. Recursion continues through the entire sub-tree of the bundle. If the object_id refers to a blob, then the query parameter is ignored." ,schema=@Schema()) @Valid @RequestParam(value = "expand", required = false) Boolean expand) {
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            	try {
-        			log.info("getObject()");
-        			if (objectId == null || objectId.isEmpty()) {
-        				throw new IllegalArgumentException("null or empty objectId");
-        			}
+    	 String accept = request.getHeader("Accept");
+         if (accept != null && accept.contains("application/json")) {
+             	try {
+         			log.info("getObject()");
+         			if (objectId == null || objectId.isEmpty()) {
+         				throw new IllegalArgumentException("null or empty objectId");
+         			}
 
-        			log.info("objectId:{}", objectId);
+         			log.info("objectId:{}", objectId);
 
-        			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        			String name = auth.getName();
-        			log.info("name:{}", name);
-        			IRODSAccount irodsAccount = this.contextAccountHelper.irodsAccountFromAuthentication(name);
+         			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+         			String name = auth.getName();
+         			log.info("name:{}", name);
+         			IRODSAccount irodsAccount = this.contextAccountHelper.irodsAccountFromAuthentication(name);
 
-        			// IRODSAccount irodsAccount = IRODSAccount.instance("server4.local", 1247,
-        			// "test1", "test", "", "zone1", "");
-        			DosService dosService = dosServiceFactory.instanceDosService(irodsAccount);
+         			// IRODSAccount irodsAccount = IRODSAccount.instance("server4.local", 1247,
+         			// "test1", "test", "", "zone1", "");
+         			DosService dosService = dosServiceFactory.instanceDosService(irodsAccount);
 
-        			BundleInfoAndPath bundleInfo = dosService.resolveId(objectId);
-        			if (bundleInfo.isCollection()) {
-        				DrsObject drsObject = drsObjectFromCollection(objectId, dosService, bundleInfo);
-        				log.info("ga4ghObject:{}", drsObject);
-        				return new ResponseEntity<DrsObject>(drsObject, HttpStatus.OK);
+         			BundleInfoAndPath bundleInfo = dosService.resolveId(objectId);
+         			if (bundleInfo.isCollection()) {
+         				DrsObject drsObject = drsObjectFromCollection(objectId, dosService, bundleInfo);
+         				log.info("ga4ghObject:{}", drsObject);
+         				return new ResponseEntity<DrsObject>(drsObject, HttpStatus.OK);
 
-        			} else {
-        				DrsObject drsObject = drsObjecFromDataObject(objectId, dosService, bundleInfo);
+         			} else {
+         				DrsObject drsObject = drsObjecFromDataObject(objectId, dosService, bundleInfo);
 
-        				log.info("ga4ghObject:{}", drsObject);
-        				return new ResponseEntity<DrsObject>(drsObject, HttpStatus.OK);
+         				log.info("ga4ghObject:{}", drsObject);
+         				return new ResponseEntity<DrsObject>(drsObject, HttpStatus.OK);
 
-        			}
+         			}
 
-        		} catch (DosDataNotFoundException e) {
-        			log.warn("data not found for objectId:{}", objectId);
-        			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+         		} catch (DosDataNotFoundException e) {
+         			log.warn("data not found for objectId:{}", objectId);
+         			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-        		} catch (Exception e) {
-        			log.error("Couldn't serialize response for content type application/json", e);
-        			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+         		} catch (Exception e) {
+         			log.error("Couldn't serialize response for content type application/json", e);
+         			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 
-        		} finally {
-        			dosServiceFactory.getIrodsAccessObjectFactory().closeSessionAndEatExceptions();
-        		}
-            
-        }
+         		} finally {
+         			dosServiceFactory.getIrodsAccessObjectFactory().closeSessionAndEatExceptions();
+         		}
+             
+         }
 
-        return new ResponseEntity<DrsObject>(HttpStatus.NOT_IMPLEMENTED);
+         return new ResponseEntity<DrsObject>(HttpStatus.NOT_IMPLEMENTED);
     }
-
-	private DrsObject drsObjecFromDataObject(String objectId, DosService dosService, BundleInfoAndPath bundleInfo)
+    
+    private DrsObject drsObjecFromDataObject(String objectId, DosService dosService, BundleInfoAndPath bundleInfo)
 			throws DosDataNotFoundException {
 		log.info("this is a data object");
 		IrodsDataObject irodsDataObject = dosService.retrieveDataObject(bundleInfo);
