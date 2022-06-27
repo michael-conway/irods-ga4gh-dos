@@ -55,6 +55,8 @@ The ./docker/settings.xml provides necessary profiles and other configuration th
 * Copy docker/settings.xml information into your local ~/.m2/settings.xml or activate it as a profile on the command line using the --global-settings option
 * from the top directory of the repository, issue the command '''mvn install -DskipTests''' to build the packages, skipping the unit tests. See (#testing) for instructions on running the unit tests.
 
+Optionally, the included maven docker image may be used for the Maven build process. See the instructions below in (#testing) for information on starting the maven container. Once the maven container is running, it mounts the source directory and provides the necessary configuration for accomplishing a build.
+
 
 ## Testing
 
@@ -71,6 +73,36 @@ In the docker subdirectory is an iRODS docker image and build/test image that ca
 * execute the command '''docker exec -it maven bash''' to enter a session in the build/test image
 * inside the build/test image, issue '''cd /usr/src/irods-data-repository-service''' to get to the mounted source directory
 * execute '''mvn install''' to build and test your source code (which is mounted into the docker image, so it can be re-run interactively) against the running iRODS Docker image
+
+
+Here a docker 'ps' command shows the framework running
+
+```
+conwaymc@ALMBP02246093 ~ % docker ps
+CONTAINER ID   IMAGE                           COMMAND                  CREATED         STATUS         PORTS                              NAMES
+5a0232682c14   docker_maven                    "/usr/local/bin/mvn-…"   9 minutes ago   Up 9 minutes                                      maven
+a1701b2454a0   docker_irods-catalog-provider   "./start_provider.sh"    9 minutes ago   Up 9 minutes   0.0.0.0:1247->1247/tcp, 1248/tcp   irods-catalog-provider
+```
+
+Here a bash session is established in the maven container
+
+```
+conwaymc@ALMBP02246093 ~ % docker exec -it maven bash
+root@5a0232682c14:/#
+
+```
+
+Here we cd into the mounted source directory, ready to issue maven commands
+
+```
+# pwd
+/usr/src/irods-data-repository-service
+# ls
+LICENSE.txt  README.md	docker	eclipse-formatting.xml	etc  ga4gh-bundle-management-service  ga4gh-common  ga4gh-console  ga4gh-drs-service  pom.xml  sample-settings.xml  swagger
+#
+```
+
+
 
 
 

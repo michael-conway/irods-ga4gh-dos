@@ -1,7 +1,7 @@
 FROM openjdk:8-jdk-alpine
 LABEL organization="NIEHS"
 LABEL maintainer="mike.conway@nih.gov"
-LABEL description="GA4GH iRODS DOS"
+LABEL description="iDRS - GA4GH iRODS DOS"
 ADD runit.sh /
 
 ADD target/ga4gh-dos-service-0.0.1-SNAPSHOT.jar /ga4gh-dos-service-0.0.1-SNAPSHOT.jar
