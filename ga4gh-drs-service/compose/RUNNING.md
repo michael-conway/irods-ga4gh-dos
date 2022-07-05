@@ -56,10 +56,11 @@ JWT tokens as well, and can utilize an iRODS ticket for the access URL endpoints
 
 ### Edit the ga4gh.properties and rest.properties, see those files for hints on the prop settings
 
-### Set an environment variable that points to the local etc/irods-ext directory
+### Set an environment variable that points to the local etc/irods-ext directory. In this case, the command uses the current location in the 'compose' subdirectory that contains the docker compose file, with settings that will pick up the default configuration for the docker test framework.
 
 ```
-export IRODS_EXT_PATH=/foo/bar/etc/irods-ext
+ export IRODS_EXT_PATH=`pwd`/etc/irods-ext
+
 ```
 
 ### Start iRODS
