@@ -125,6 +125,16 @@ shell:>
 
 ```
 
+
+For the compose based test framework, you can sign in using one of the test id's (user: test1 password: test). You need to first iinit, as you do in icommands
+
+```
+
+iinit --host irods-catalog-provider --zone tempZone --user test1 --password test
+
+```
+
+
 Typing help will give you a list of available commands:
 
 ```
