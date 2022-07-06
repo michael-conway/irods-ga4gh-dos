@@ -65,11 +65,15 @@ JWT tokens as well, and can utilize an iRODS ticket for the access URL endpoints
 
 ### Start iRODS
 
-### Start the REST and DRS docker containers
+### Start the REST and DRS and other docker containers
 
 ```
-docker-compose up
+docker-compose up -V
 ```
+
+### Interact with Swagger UI
+
+You can find the swagger UI at http://localhost:8080/ga4gh/drs/v1/swagger-ui.html
 
 ### Create some bundles with the console
 
@@ -82,6 +86,26 @@ No cert to import
 exec drscon.sh to run drs console
 / # 
 
+```
+
+The DRS console is also started as part of the docker compose setup and can talk to the iRODS in the same test bundle. If you have started the compose 
+rig, you can see the various containers:
+
+```
+conwaymc@ALMBP02246093 ~ % docker ps
+CONTAINER ID   IMAGE                               COMMAND                 CREATED         STATUS         PORTS                              NAMES
+028aad21c982   michaelconway/ga4gh-drs:0.0.2       "/runit.sh"             4 minutes ago   Up 4 minutes   0.0.0.0:8080->8080/tcp             irods-drs
+8108f5f88442   michaelconway/irods-rest2:1.0.1     "/runit.sh"             4 minutes ago   Up 4 minutes   0.0.0.0:8888->8080/tcp             irods-rest
+e257863f9158   michaelconway/ga4gh-console:0.0.2   "/runit.sh"             4 minutes ago   Up 4 minutes                                      ga4gh_console
+c50f92d507f4   compose_irods-catalog-provider      "./start_provider.sh"   4 minutes ago   Up 4 minutes   0.0.0.0:1247->1247/tcp, 1248/tcp   irods-catalog-provider
+conwaymc@ALMBP02246093 ~ %
+
+```
+
+Using compose you can issue the command:
+
+```
+docker exec -it ga4gh_console sh
 ```
 
 This puts you at an interactive prompt. In the current directory you will find an ./drscon.sh script that can start the console
