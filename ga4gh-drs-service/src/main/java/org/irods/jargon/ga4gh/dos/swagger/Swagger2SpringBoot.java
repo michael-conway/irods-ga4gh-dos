@@ -15,7 +15,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableSwagger2
-@ComponentScan(basePackages = { "org.irods.jargon.ga4gh.dos.invoker", "org.irods.jargon.ga4gh.dos.api" , "org.irods.jargon.ga4gh.dos.util.config"})
+@ComponentScan(basePackages = { "org.irods.jargon.ga4gh.dos.invoker", "org.irods.jargon.ga4gh.dos.api" , 
+		"org.irods.jargon.ga4gh.dos.util.config", "org.irods.jargon.ga4gh.dos.bundle.impl", "org.irods.jargon.ga4gh.dos.configuration",
+		"org.irods.jargon.ga4gh.dos.security"})
 public class Swagger2SpringBoot implements CommandLineRunner {
 
     @Override
