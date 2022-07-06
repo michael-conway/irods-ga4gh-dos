@@ -5,13 +5,16 @@ package org.irods.jargon.ga4gh.dos.console.commands;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Random;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.irods.jargon.core.connection.IRODSServerProperties;
 import org.irods.jargon.core.exception.JargonException;
 import org.irods.jargon.core.exception.JargonRuntimeException;
+import org.irods.jargon.core.packinstr.DataObjInp.OpenFlags;
 import org.irods.jargon.core.pub.CollectionAndDataObjectListAndSearchAO;
 import org.irods.jargon.core.pub.io.IRODSFile;
+import org.irods.jargon.core.pub.io.IRODSFileOutputStream;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry;
 import org.irods.jargon.core.query.CollectionAndDataObjectListingEntry.ObjectType;
 import org.irods.jargon.ga4gh.dos.bundle.internalmodel.BundleInfoAndPath;
@@ -245,6 +248,93 @@ public class DrsBundlesCommand {
 			drsConsoleContext.getIrodsAccessObjectFactory().closeSessionAndEatExceptions();
 		}
 	}
+
+	@ShellMethod("Create test bundle")
+	public String maketestbundle(@ShellOption("--directory") String directory,
+			@ShellOption(value="--files", defaultValue="10") String numberOfFiles, @ShellOption(value = "--filePrefix", defaultValue="file")String filePrefix) {
+		log.info("maketestbundle");
+		int fileLength = 100;
+		String wd = drsConsoleContext.getCwd();
+
+		if (directory == null || directory.isBlank()) {
+			return "please enter a directory for the test bundle";
+		}
+
+		int nbrFiles = Integer.parseInt(numberOfFiles);
+
+		log.info("directory:{}", directory);
+		log.info("numberOfFiles:{}", numberOfFiles);
+
+		// verify that the dir is empty
+
+		IRODSFile bundleDir;
+
+		try {
+
+			if (directory.startsWith("/")) {
+				log.info("process as absolute path");
+				bundleDir = drsConsoleContext.getIrodsFileFactory().instanceIRODSFile(directory);
+			} else {
+				log.info("process as relative path");
+				bundleDir = drsConsoleContext.getIrodsFileFactory().instanceIRODSFile(wd, directory);
+			}
+
+			if (bundleDir.exists()) {
+				log.error("file exists, cannot create a test directory");
+				return "The directory exists, cannot create a test directory with that name";
+			}
+			
+			// make the dir, then add a number of child files
+			bundleDir.mkdirs();
+			
+			
+			for (int i=0; i < nbrFiles; i++) {
+				String fileName = filePrefix + String.valueOf(i);
+				
+				IRODSFile irodsFile = drsConsoleContext.getIrodsFileFactory().instanceIRODSFile(bundleDir.getAbsolutePath(), fileName);
+				IRODSFileOutputStream irodsFileOutputStream = drsConsoleContext.getIrodsFileFactory().instanceIRODSFileOutputStream(irodsFile,
+						OpenFlags.READ_WRITE, true);
+
+				byte[] myBytesArray = this.randomString(fileLength).getBytes();
+				irodsFileOutputStream.write(myBytesArray);
+				irodsFile.close();	
+				
+			}
+			
+			log.info("wrote bundle files");
+			
+			return "test bundle created at:" + bundleDir.getAbsolutePath();
+		} catch (JargonException | IOException e) {
+			log.error("exception getting file:{}", e);
+			throw new JargonRuntimeException("error getting file", e);
+		} finally {
+			drsConsoleContext.getIrodsAccessObjectFactory().closeSessionAndEatExceptions();
+		}
+	}
+	
+	public String randomString(int stringLength) {
+	    int leftLimit = 48; // numeral '0'
+	    int rightLimit = 122; // letter 'z'
+	    int targetStringLength = stringLength;
+	    Random random = new Random();
+
+	    String generatedString = random.ints(leftLimit, rightLimit + 1)
+	      .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+	      .limit(targetStringLength)
+	      .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+	      .toString();
+	    
+	    return generatedString;
+	}
+	   /* Random random = new Random();
+
+	    String generatedString = random.ints(leftLimit, rightLimit + 1)
+	      .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+	      .limit(targetStringLength)
+	      .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+	      .toString();
+
+	    Syst*/
 
 	public Availability icdAvailability() {
 		return drsConsoleContext.isInitd() ? Availability.available()
