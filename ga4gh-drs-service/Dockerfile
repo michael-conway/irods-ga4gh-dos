@@ -1,4 +1,4 @@
-FROM openjdk:8-jdk-alpine
+FROM adoptopenjdk/openjdk11
 LABEL organization="NIEHS"
 LABEL maintainer="mike.conway@nih.gov"
 LABEL description="iDRS - GA4GH iRODS DOS"

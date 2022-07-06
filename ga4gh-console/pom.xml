@@ -96,7 +96,7 @@
 						</goals>
 						<phase>generate-sources</phase>
 						<configuration>
-							<tasks>
+							<target>
 								<property name="src.dir"
 									value="${project.build.sourceDirectory}" />
 								<property name="package.dir"
@@ -125,14 +125,14 @@
 									file="${src.dir}/${package.dir}/Ga4ghConsoleVersion.java"
 									append="true" message="}${line.separator}" />
 								<echo message="BUILD ${buildtime}" />
-							</tasks>
+							</target>
 						</configuration>
 					</execution>
 					<execution>
 						<id>0</id>
 						<phase>validate</phase>
 						<configuration>
-							<tasks>
+							<target>
 								<delete
 									file="${basedir}/src/test/resources/testing.properties" />
 								<touch
@@ -197,7 +197,7 @@
 									ga4gh.access.url=http://foo.com/ga4gh/drs/v1/objects
 
 								</echo>
-							</tasks>
+							</target>
 						</configuration>
 						<goals>
 							<goal>run</goal>
@@ -208,7 +208,7 @@
 						<id>2</id>
 						<phase>validate</phase>
 						<configuration>
-							<tasks>
+							<target>
 								<delete
 									file="${basedir}/src/test/resources/test.dos.properties" />
 								<touch
@@ -236,7 +236,7 @@
 									irodsext.datatyper.detailed.determination=false
 
 								</echo>
-							</tasks>
+							</target>
 						</configuration>
 						<goals>
 							<goal>run</goal>

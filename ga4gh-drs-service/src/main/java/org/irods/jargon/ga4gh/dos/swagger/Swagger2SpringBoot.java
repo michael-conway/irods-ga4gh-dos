@@ -1,7 +1,5 @@
 package org.irods.jargon.ga4gh.dos.swagger;
 
-
-
 import org.irods.jargon.ga4gh.dos.util.config.LocalDateConverter;
 import org.irods.jargon.ga4gh.dos.util.config.LocalDateTimeConverter;
 import org.springframework.boot.CommandLineRunner;
@@ -10,15 +8,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
-import springfox.documentation.oas.annotations.EnableOpenApi;
-
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
-@EnableOpenApi
-@ComponentScan(basePackages = { "io.swagger", "org.irods.jargon.ga4gh.dos.api" , "io.swagger.configuration"})
+@EnableSwagger2
+@ComponentScan(basePackages = { "org.irods.jargon.ga4gh.dos.invoker", "org.irods.jargon.ga4gh.dos.api" , "org.irods.jargon.ga4gh.dos.util.config"})
 public class Swagger2SpringBoot implements CommandLineRunner {
 
     @Override
@@ -33,7 +30,7 @@ public class Swagger2SpringBoot implements CommandLineRunner {
     }
 
     @Configuration
-    static class CustomDateConfig extends WebMvcConfigurerAdapter {
+    static class MyConfig extends WebMvcConfigurerAdapter {
         @Override
         public void addFormatters(FormatterRegistry registry) {
             registry.addConverter(new LocalDateConverter("yyyy-MM-dd"));
