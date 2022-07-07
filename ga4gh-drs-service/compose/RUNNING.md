@@ -139,6 +139,7 @@ Typing help will give you a list of available commands:
 
 ```
 shell:>help
+shell:>help
 AVAILABLE COMMANDS
 
 Built-In Commands
@@ -149,20 +150,15 @@ Built-In Commands
         stacktrace: Display the full stacktrace of the last error.
 
 Drs Bundles Command
-      * icd: Change working directory in iRODS
+        icd: Change working directory in iRODS
         iinit: Initialize connection
-      * ilistdrsb: List all DRS bundles
-      * ils: List directory contents
-      * imakedrsb: Make a DRS bundle at current directory
-      * ipwd: Print working directory in iRODS
-      * irmdrsb: Remove a DRS bundle by directory path or GUID
-      * list-bundles: List Bundles
-
-Commands marked with (*) are currently unavailable.
-Type `help <command>` to learn more.
-
-
-shell:>
+        ilistdrsb: List all DRS bundles
+        ils: List directory contents
+        imakedrsb: Make a DRS bundle at current directory
+        ipwd: Print working directory in iRODS
+        irmdrsb: Remove a DRS bundle by directory path or GUID
+        list-bundles: List Bundles
+        maketestbundle: Create test bundle
 
 ```
 
@@ -208,6 +204,53 @@ b670ec6a-78d2-438f-a180-885f49a016b4	/zone1/home/test1/study
 shell:>
 	
 ```
+
+A bundle is a collection of iRODS files, where each object in the collection is a DRS Object. In order to facilitate testing the console
+includes a helper command to generate a test collection of files in iRODS that can be made into a bundle.
+
+```
+shell:>help maketestbundle
+
+
+NAME
+	maketestbundle - Create test bundle
+
+SYNOPSYS
+	maketestbundle [--directory] string  [[--files] string]  [[--filePrefix] string]
+
+OPTIONS
+	--directory  string
+
+		[Mandatory]
+
+	--files  string
+
+		[Optional, default = 10]
+
+	--filePrefix  string
+
+		[Optional, default = file]
+
+
+```
+
+This creates a set of files with a prefix name (defaults to 100 byte files of random data to generate unique checksums). By default 10 files are created but that number can be adjusted.
+
+So in order to create a test bundle from the console, issue a series of commands like so:
+
+```
+shell:>maketestbundle testbundle2
+test bundle created at:/tempZone/home/test1/testbundle2
+
+shell:>icd testbundle2
+/tempZone/home/test1/testbundle2
+
+shell:>imakedrsb
+created bundle with GUID:43606067-6cc1-410d-bdd5-e875e1841f14
+
+
+```
+
 
 Note that the bundle GUID is provided...You can use this in your DRS requests
 
