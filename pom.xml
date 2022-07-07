@@ -12,12 +12,12 @@
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 		<jargon.version>4.3.2.6-SNAPSHOT</jargon.version>
 		<spring.security.version>4.2.4.RELEASE</spring.security.version>
- <springfox-version>2.7.0</springfox-version>
+		<springfox-version>2.7.0</springfox-version>
 	</properties>
 	<parent>
-		  <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.9.RELEASE</version>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.5.9.RELEASE</version>
 	</parent>
 	<profiles>
 		<profile>

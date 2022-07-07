@@ -341,13 +341,6 @@ public class DrsBundlesCommand {
 				: Availability.unavailable("you are not connected, please do the iinit command");
 	}
 
-	@ShellMethod("List Bundles")
-	public List<String> listBundles() {
-		log.info("listBundles");
-
-		return null;
-	}
-
 	public Availability listBundlesAvailability() {
 		return drsConsoleContext.isInitd() ? Availability.available()
 				: Availability.unavailable("you are not connected, please do the iinit command");
