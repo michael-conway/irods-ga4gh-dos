@@ -429,8 +429,8 @@ public class ExplodedDosServiceImpl extends AbstractDosService implements DosSer
 				irodsDataObject.setFileName(irodsFile.getName());
 				irodsDataObject.setGuid(row.getColumn(2));
 				irodsDataObject.setAbsolutePath(irodsFile.getAbsolutePath());
-				irodsDataObject.setCreateDate(IRODSDataConversionUtil.getDateFromIRODSValue(irodsFile.lastModified()));
-				irodsDataObject.setModifyDate(IRODSDataConversionUtil.getDateFromIRODSValue(irodsFile.lastModified()));
+				irodsDataObject.setCreateDate(IRODSDataConversionUtil.getDateFromIrodsValueAsLong(irodsFile.lastModified()));
+				irodsDataObject.setModifyDate(IRODSDataConversionUtil.getDateFromIrodsValueAsLong(irodsFile.lastModified()));
 				StringBuilder sb = new StringBuilder();
 				sb.append("drs://");
 				sb.append(this.getDosConfiguration().getDrsServerUrl());
