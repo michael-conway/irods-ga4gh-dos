@@ -56,19 +56,24 @@ JWT tokens as well, and can utilize an iRODS ticket for the access URL endpoints
 
 ### Edit the ga4gh.properties and rest.properties, see those files for hints on the prop settings
 
-### Set an environment variable that points to the local etc/irods-ext directory
+### Set an environment variable that points to the local etc/irods-ext directory. In this case, the command uses the current location in the 'compose' subdirectory that contains the docker compose file, with settings that will pick up the default configuration for the docker test framework.
 
 ```
-export IRODS_EXT_PATH=/foo/bar/etc/irods-ext
+ export IRODS_EXT_PATH=`pwd`/etc/irods-ext
+
 ```
 
 ### Start iRODS
 
-### Start the REST and DRS docker containers
+### Start the REST and DRS and other docker containers
 
 ```
-docker-compose up
+docker-compose up -V
 ```
+
+### Interact with Swagger UI
+
+You can find the swagger UI at http://localhost:8080/ga4gh/drs/v1/swagger-ui.html
 
 ### Create some bundles with the console
 
@@ -81,6 +86,26 @@ No cert to import
 exec drscon.sh to run drs console
 / # 
 
+```
+
+The DRS console is also started as part of the docker compose setup and can talk to the iRODS in the same test bundle. If you have started the compose 
+rig, you can see the various containers:
+
+```
+conwaymc@ALMBP02246093 ~ % docker ps
+CONTAINER ID   IMAGE                               COMMAND                 CREATED         STATUS         PORTS                              NAMES
+028aad21c982   michaelconway/ga4gh-drs:0.0.2       "/runit.sh"             4 minutes ago   Up 4 minutes   0.0.0.0:8080->8080/tcp             irods-drs
+8108f5f88442   michaelconway/irods-rest2:1.0.1     "/runit.sh"             4 minutes ago   Up 4 minutes   0.0.0.0:8888->8080/tcp             irods-rest
+e257863f9158   michaelconway/ga4gh-console:0.0.2   "/runit.sh"             4 minutes ago   Up 4 minutes                                      ga4gh_console
+c50f92d507f4   compose_irods-catalog-provider      "./start_provider.sh"   4 minutes ago   Up 4 minutes   0.0.0.0:1247->1247/tcp, 1248/tcp   irods-catalog-provider
+conwaymc@ALMBP02246093 ~ %
+
+```
+
+Using compose you can issue the command:
+
+```
+docker exec -it ga4gh_console sh
 ```
 
 This puts you at an interactive prompt. In the current directory you will find an ./drscon.sh script that can start the console
@@ -100,9 +125,20 @@ shell:>
 
 ```
 
+
+For the compose based test framework, you can sign in using one of the test id's (user: test1 password: test). You need to first iinit, as you do in icommands
+
+```
+
+iinit --host irods-catalog-provider --zone tempZone --user test1 --password test
+
+```
+
+
 Typing help will give you a list of available commands:
 
 ```
+shell:>help
 shell:>help
 AVAILABLE COMMANDS
 
@@ -114,20 +150,15 @@ Built-In Commands
         stacktrace: Display the full stacktrace of the last error.
 
 Drs Bundles Command
-      * icd: Change working directory in iRODS
+        icd: Change working directory in iRODS
         iinit: Initialize connection
-      * ilistdrsb: List all DRS bundles
-      * ils: List directory contents
-      * imakedrsb: Make a DRS bundle at current directory
-      * ipwd: Print working directory in iRODS
-      * irmdrsb: Remove a DRS bundle by directory path or GUID
-      * list-bundles: List Bundles
-
-Commands marked with (*) are currently unavailable.
-Type `help <command>` to learn more.
-
-
-shell:>
+        ilistdrsb: List all DRS bundles
+        ils: List directory contents
+        imakedrsb: Make a DRS bundle at current directory
+        ipwd: Print working directory in iRODS
+        irmdrsb: Remove a DRS bundle by directory path or GUID
+        list-bundles: List Bundles
+        maketestbundle: Create test bundle
 
 ```
 
@@ -174,14 +205,75 @@ shell:>
 	
 ```
 
+A bundle is a collection of iRODS files, where each object in the collection is a DRS Object. In order to facilitate testing the console
+includes a helper command to generate a test collection of files in iRODS that can be made into a bundle.
+
+```
+shell:>help maketestbundle
+
+
+NAME
+	maketestbundle - Create test bundle
+
+SYNOPSYS
+	maketestbundle [--directory] string  [[--files] string]  [[--filePrefix] string]
+
+OPTIONS
+	--directory  string
+
+		[Mandatory]
+
+	--files  string
+
+		[Optional, default = 10]
+
+	--filePrefix  string
+
+		[Optional, default = file]
+
+
+```
+
+This creates a set of files with a prefix name (defaults to 100 byte files of random data to generate unique checksums). By default 10 files are created but that number can be adjusted.
+
+So in order to create a test bundle from the console, issue a series of commands like so:
+
+```
+shell:>maketestbundle testbundle2
+test bundle created at:/tempZone/home/test1/testbundle2
+
+shell:>icd testbundle2
+/tempZone/home/test1/testbundle2
+
+shell:>imakedrsb
+created bundle with GUID:43606067-6cc1-410d-bdd5-e875e1841f14
+
+
+```
+
+
 Note that the bundle GUID is provided...You can use this in your DRS requests
 
 ### Authenticate and obtain a bearer token
 
+
+The included (fragmentary) iRODS REST API endpoint is included which provides basic support for tokens and streaming file data. This service is included in docker compose and the endpoint should be available at: http://localhost:8888/swagger-ui.html#/files if running via the compose framework. 
+
 The iRODS REST api has a tokens endpoint, pass a valid iRODS user/password and get the token for later CURL operations. Here is a CURL example:
 
 ```
- curl -X POST   http://localhost:8888/irods-rest2/token   --user test1:test(base) ~/Documents/workspace-niehs-dev/ga4gh-dos/ga4gh-dos-service/compose @ ALMBP-02010755(conwaymc): curl -X POST   http://localhost:8888/irods-rest2/token   --user test1:test
+ curl --location --request POST 'http://localhost:8888/token' \
+ --user test1:test \
+--header 'Content-Type: application/json' \
+--data-raw '{}  '
+
+```
+
+this returns a token in the response
+
+```
+
+curl -X POST   http://localhost:8888/irods-rest2/token   --user test1:test
 eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0MSIsImlzcyI6Imlyb2RzLXJlc3QyIiwiaWF0IjoxNTgxMTAyMTkxfQ._XeZqqUi4MHmsxQdTyr-XcktnRaqtvRUToCGJq2rwL0QfGO9OSlKgf2OzknQtvl4F_i10oN-FBcT_uDO5gBuFg
 
 ```
@@ -195,9 +287,12 @@ Here is an (abridged) example of retrieving a data bundle via CURL given the Bea
 curl -X GET \
   'http://localhost:8080/ga4gh/drs/v1/objects/b670ec6a-78d2-438f-a180-885f49a016b4?expand=false' \
   -H 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0MSIsImlzcyI6Imlyb2RzLXJlc3QyIiwiaWF0IjoxNTgxMTAyMTkxfQ._XeZqqUi4MHmsxQdTyr-XcktnRaqtvRUToCGJq2rwL0QfGO9OSlKgf2OzknQtvl4F_i10oN-FBcT_uDO5gBuFg'
-(base) ~/Documents/workspace-niehs-dev/ga4gh-dos/ga4gh-dos-service/compose @ ALMBP-02010755(conwaymc): curl -X GET \
->   'http://localhost:8080/ga4gh/drs/v1/objects/b670ec6a-78d2-438f-a180-885f49a016b4?expand=false' \
->   -H 'Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0MSIsImlzcyI6Imlyb2RzLXJlc3QyIiwiaWF0IjoxNTgxMTAyMTkxfQ._XeZqqUi4MHmsxQdTyr-XcktnRaqtvRUToCGJq2rwL0QfGO9OSlKgf2OzknQtvl4F_i10oN-FBcT_uDO5gBuFg'
+  
+  ```
+  
+  this returns a result like:
+  
+ ```
 {"id":"b670ec6a-78d2-438f-a180-885f49a016b4","name":"/zone1/home/test1/study","self_uri":"drs://localhost/b670ec6a-78d2-438f-a180-885f49a016b4","size":0,"created_time":"2019-09-06T15:28:03Z","updated_time":"2019-09-06T15:28:03Z","version":"0","mime_type":"text/directory","checksums":[{"checksum":"736e715a72017f1e6ce67e9e5d7d0dc4e6b6d29e6150f7dc1f011697910c3bdf","type":"sha256"}],"access_methods":[],"contents":[{"name":"file1.json","id":"39e87c10-dbb6-4d45-9e21-1257ea337104","drs_uri":["drs://localhost/39e87c10-dbb6-4d45-9e21-1257ea337104"],"contents":[]},{"name":"file2.pdf","id":"ca8d9a9c-c3d1-417a-8663-6904d9870be1","drs_uri":["drs://localhost/ca8d9a9c-c3d1-417a-8663-6904d9870be1"],"contents":[]},{"name":"file3.pdf","id":"1c1c9892-d22f-4eef-882b-378d2a8dc3be","drs_uri":["drs://localhost/1c1c9892-d22f-4eef-882b-378d2a8dc3be"],"contents":[]},description":"iRODS exploded bundle collection","aliases":["/zone1/home/test1/study"]}(base) ~/Documents/workspace-niehs-dev/ga4gh-dos/ga4gh-dos-service/compose @ ALMBP-02010755(conwaymc): 
 
 ```

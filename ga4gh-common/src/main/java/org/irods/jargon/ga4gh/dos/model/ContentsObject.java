@@ -3,11 +3,11 @@ package org.irods.jargon.ga4gh.dos.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
 import org.irods.jargon.ga4gh.dos.model.ContentsObject;
+import java.io.Serializable;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -16,9 +16,12 @@ import javax.validation.constraints.*;
  * ContentsObject
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-08-22T19:13:50.266Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2022-06-22T12:15:59.889Z[GMT]")
 
-public class ContentsObject   {
+
+public class ContentsObject  implements Serializable  {
+  private static final long serialVersionUID = 1L;
+
   @JsonProperty("name")
   private String name = null;
 
@@ -39,14 +42,13 @@ public class ContentsObject   {
   }
 
   /**
-   * A name declared by the bundle author that must be used when materialising this object, overriding any name directly associated with the object itself. The name must be unique with the containing bundle.  This string is made up of uppercase and lowercase letters, decimal digits, hypen, period, and underscore [A-Za-z0-9.-_]. See http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html#tag_03_282[portable filenames].
+   * A name declared by the bundle author that must be used when materialising this object, overriding any name directly associated with the object itself. The name must be unique with the containing bundle. This string is made up of uppercase and lowercase letters, decimal digits, hypen, period, and underscore [A-Za-z0-9.-_]. See http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html#tag_03_282[portable filenames].
    * @return name
-  **/
-  @ApiModelProperty(required = true, value = "A name declared by the bundle author that must be used when materialising this object, overriding any name directly associated with the object itself. The name must be unique with the containing bundle.  This string is made up of uppercase and lowercase letters, decimal digits, hypen, period, and underscore [A-Za-z0-9.-_]. See http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html#tag_03_282[portable filenames].")
-  @NotNull
+   **/
+  @Schema(required = true, description = "A name declared by the bundle author that must be used when materialising this object, overriding any name directly associated with the object itself. The name must be unique with the containing bundle. This string is made up of uppercase and lowercase letters, decimal digits, hypen, period, and underscore [A-Za-z0-9.-_]. See http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html#tag_03_282[portable filenames].")
+      @NotNull
 
-
-  public String getName() {
+    public String getName() {
     return name;
   }
 
@@ -60,13 +62,12 @@ public class ContentsObject   {
   }
 
   /**
-   * A DRS identifier of an `Ga4ghObject` (either a single blob or a nested bundle). If this ContentsObject is an object within a nested bundle, then the id is optional. Otherwise, the id is required.
+   * A DRS identifier of a `DrsObject` (either a single blob or a nested bundle). If this ContentsObject is an object within a nested bundle, then the id is optional. Otherwise, the id is required.
    * @return id
-  **/
-  @ApiModelProperty(value = "A DRS identifier of an `Ga4ghObject` (either a single blob or a nested bundle). If this ContentsObject is an object within a nested bundle, then the id is optional. Otherwise, the id is required.")
-
-
-  public String getId() {
+   **/
+  @Schema(description = "A DRS identifier of a `DrsObject` (either a single blob or a nested bundle). If this ContentsObject is an object within a nested bundle, then the id is optional. Otherwise, the id is required.")
+  
+    public String getId() {
     return id;
   }
 
@@ -81,7 +82,7 @@ public class ContentsObject   {
 
   public ContentsObject addDrsUriItem(String drsUriItem) {
     if (this.drsUri == null) {
-      this.drsUri = new ArrayList<>();
+      this.drsUri = new ArrayList<String>();
     }
     this.drsUri.add(drsUriItem);
     return this;
@@ -90,11 +91,10 @@ public class ContentsObject   {
   /**
    * A list of full DRS identifier URI paths that may be used to obtain the object. These URIs may be external to this DRS instance.
    * @return drsUri
-  **/
-  @ApiModelProperty(example = "\"drs://example.com/ga4gh/drs/v1/objects/{object_id}\"", value = "A list of full DRS identifier URI paths that may be used to obtain the object. These URIs may be external to this DRS instance.")
-
-
-  public List<String> getDrsUri() {
+   **/
+  @Schema(example = "drs://drs.example.org/314159", description = "A list of full DRS identifier URI paths that may be used to obtain the object. These URIs may be external to this DRS instance.")
+  
+    public List<String> getDrsUri() {
     return drsUri;
   }
 
@@ -109,7 +109,7 @@ public class ContentsObject   {
 
   public ContentsObject addContentsItem(ContentsObject contentsItem) {
     if (this.contents == null) {
-      this.contents = new ArrayList<>();
+      this.contents = new ArrayList<ContentsObject>();
     }
     this.contents.add(contentsItem);
     return this;
@@ -118,12 +118,10 @@ public class ContentsObject   {
   /**
    * If this ContentsObject describes a nested bundle and the caller specified \"?expand=true\" on the request, then this contents array must be present and describe the objects within the nested bundle.
    * @return contents
-  **/
-  @ApiModelProperty(value = "If this ContentsObject describes a nested bundle and the caller specified \"?expand=true\" on the request, then this contents array must be present and describe the objects within the nested bundle.")
-
-  @Valid
-
-  public List<ContentsObject> getContents() {
+   **/
+  @Schema(description = "If this ContentsObject describes a nested bundle and the caller specified \"?expand=true\" on the request, then this contents array must be present and describe the objects within the nested bundle.")
+      @Valid
+    public List<ContentsObject> getContents() {
     return contents;
   }
 
@@ -176,4 +174,3 @@ public class ContentsObject   {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

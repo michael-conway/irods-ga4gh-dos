@@ -2,28 +2,56 @@
 # IRODS_EXT_PATH=[path to the irods-ext directory containing the irods-rest and ga4gh-drs configuration files. See
 # RUNNING.md in this directory
 #
+# export IRODS_EXT_PATH=`pwd`/etc/irods-ext
+#
 version: '3'
 services:
+  irods-catalog-provider:
+    container_name: irods-catalog-provider
+    build:
+        context: .
+        dockerfile: Dockerfile.provider
+    hostname: icat.example.org
+    networks:
+      irodsnet:
+        aliases:
+          - icat.example.org
+    ports:
+      - "1247:1247"
+      #- "5432:5432"
+      #- "20000-21999"
   irods-rest:
-    image: michaelconway/irods-rest2:1.0.0 
+    image: michaelconway/irods-rest2:1.0.1 
     container_name: irods-rest
     volumes:
       - ${IRODS_EXT_PATH}:/etc/irods-ext:ro
     networks:
-      - drsnet
+      - irodsnet
     ports: 
       - "8888:8080"
   irods-drs: 
     container_name: irods-drs
-    image: michaelconway/ga4gh-drs:0.0.1
+    image: michaelconway/ga4gh-drs:0.0.2
+    build:
+        context: ..
+        dockerfile: Dockerfile
     volumes:
       - ${IRODS_EXT_PATH}:/etc/irods-ext:ro
     depends_on: 
       - irods-rest
     networks:
-       - drsnet
+       - irodsnet
     ports: 
       - "8080:8080"
+  ga4gh-console:
+    image: michaelconway/ga4gh-console:0.0.2
+    container_name: ga4gh_console
+    build:
+        context: ../../ga4gh-console
+        dockerfile: Dockerfile
+    networks:
+      - irodsnet
+    
 networks:
-  drsnet:
+  irodsnet:
 

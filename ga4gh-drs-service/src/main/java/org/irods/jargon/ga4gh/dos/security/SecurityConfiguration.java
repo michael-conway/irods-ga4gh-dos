@@ -11,7 +11,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true)
+//@EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	private static final String[] AUTH_WHITELIST = {
@@ -26,23 +26,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http.cors().and().csrf().disable().authorizeRequests().antMatchers(AUTH_WHITELIST).permitAll()
 				.antMatchers("/**").authenticated().and().addFilter(new JwtAuthorizationFilter(authenticationManager()))
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
-		/*
-		 * http.cors().and().csrf().disable().authorizeRequests().antMatchers(
-		 * AUTH_WHITELIST).permitAll()
-		 * .antMatchers("/**").authenticated().and().addFilter(new
-		 * JwtAuthorizationFilter(authenticationManager()))
-		 * .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-		 * 
-		 */
-
-		/*
-		 * 
-		 * 
-		 * .ignoring().antMatchers("/v2/api-docs", "/configuration/ui",
-		 * "/swagger-resources/**", "/configuration/security", "/swagger-ui.html",
-		 * "/webjars/**");
-		 */
 	}
 
 	@Bean

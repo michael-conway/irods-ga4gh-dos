@@ -56,10 +56,10 @@
 			<artifactId>commons-codec</artifactId>
 		</dependency>
 
-		<dependency>
+		<!--<dependency>
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
-		</dependency>
+		</dependency>-->
 		<!-- Bean Validation API support -->
 		<dependency>
 			<groupId>javax.validation</groupId>
@@ -88,7 +88,7 @@
 						<id>0</id>
 						<phase>validate</phase>
 						<configuration>
-							<tasks>
+							<target>
 								<delete
 									file="${basedir}/src/test/resources/testing.properties" />
 								<touch
@@ -150,11 +150,9 @@
 									test.option.gsi.file=${test.option.gsi.file}
 									test.option.mount.basedir=${test.option.mount.basedir}
 									test.option.python=${test.option.python}
-
-
-
 								</echo>
-							</tasks>
+							</target>
+		>
 						</configuration>
 						<goals>
 							<goal>run</goal>
@@ -165,7 +163,7 @@
 						<id>2</id>
 						<phase>validate</phase>
 						<configuration>
-							<tasks>
+							<target>
 								<delete
 									file="${basedir}/src/test/resources/test.dos.properties" />
 								<touch
@@ -193,7 +191,7 @@
 									irodsext.datatyper.persist.data.types=false
 									irodsext.datatyper.detailed.determination=false
 								</echo>
-							</tasks>
+							</target>
 						</configuration>
 						<goals>
 							<goal>run</goal>

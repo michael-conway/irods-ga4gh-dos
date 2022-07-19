@@ -3,8 +3,8 @@ package org.irods.jargon.ga4gh.dos.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import java.io.Serializable;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -12,11 +12,14 @@ import javax.validation.constraints.*;
 /**
  * An object that can optionally include information about the error.
  */
-@ApiModel(description = "An object that can optionally include information about the error.")
+@Schema(description = "An object that can optionally include information about the error.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-08-22T19:13:50.266Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2022-06-22T12:15:59.889Z[GMT]")
 
-public class Error   {
+
+public class Error  implements Serializable  {
+  private static final long serialVersionUID = 1L;
+
   @JsonProperty("msg")
   private String msg = null;
 
@@ -31,11 +34,10 @@ public class Error   {
   /**
    * A detailed error message.
    * @return msg
-  **/
-  @ApiModelProperty(value = "A detailed error message.")
-
-
-  public String getMsg() {
+   **/
+  @Schema(description = "A detailed error message.")
+  
+    public String getMsg() {
     return msg;
   }
 
@@ -51,11 +53,10 @@ public class Error   {
   /**
    * The integer representing the HTTP status code (e.g. 200, 404).
    * @return statusCode
-  **/
-  @ApiModelProperty(value = "The integer representing the HTTP status code (e.g. 200, 404).")
-
-
-  public Integer getStatusCode() {
+   **/
+  @Schema(description = "The integer representing the HTTP status code (e.g. 200, 404).")
+  
+    public Integer getStatusCode() {
     return statusCode;
   }
 
@@ -104,4 +105,3 @@ public class Error   {
     return o.toString().replace("\n", "\n    ");
   }
 }
-
