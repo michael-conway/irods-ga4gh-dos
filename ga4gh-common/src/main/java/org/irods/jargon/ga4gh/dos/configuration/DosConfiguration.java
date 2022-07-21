@@ -64,6 +64,138 @@ public class DosConfiguration {
 
 	@Value("${shared.jwt.key}")
 	private String jwtKey = "";
+	
+	// Service info endpoint parameters
+	
+	@Value("${service.id}")
+	private String serviceId = "";
+	
+	public String getDrsServerName() {
+		return drsServerName;
+	}
+
+	public void setDrsServerName(String drsServerName) {
+		this.drsServerName = drsServerName;
+	}
+
+	public String getServiceId() {
+		return serviceId;
+	}
+
+	public void setServiceId(String serviceId) {
+		this.serviceId = serviceId;
+	}
+
+	public String getServiceName() {
+		return serviceName;
+	}
+
+	public void setServiceName(String serviceName) {
+		this.serviceName = serviceName;
+	}
+
+	public String getServiceTypeGroup() {
+		return serviceTypeGroup;
+	}
+
+	public void setServiceTypeGroup(String serviceTypeGroup) {
+		this.serviceTypeGroup = serviceTypeGroup;
+	}
+
+	public String getServiceTypeArtifact() {
+		return serviceTypeArtifact;
+	}
+
+	public void setServiceTypeArtifact(String serviceTypeArtifact) {
+		this.serviceTypeArtifact = serviceTypeArtifact;
+	}
+
+	public String getServiceTypeVersion() {
+		return serviceTypeVersion;
+	}
+
+	public void setServiceTypeVersion(String serviceTypeVersion) {
+		this.serviceTypeVersion = serviceTypeVersion;
+	}
+
+	public String getServiceDescription() {
+		return serviceDescription;
+	}
+
+	public void setServiceDescription(String serviceDescription) {
+		this.serviceDescription = serviceDescription;
+	}
+
+	public String getServiceOrganizationName() {
+		return serviceOrganizationName;
+	}
+
+	public void setServiceOrganizationName(String serviceOrganizationName) {
+		this.serviceOrganizationName = serviceOrganizationName;
+	}
+
+	public String getServiceUrl() {
+		return serviceUrl;
+	}
+
+	public void setServiceUrl(String serviceUrl) {
+		this.serviceUrl = serviceUrl;
+	}
+
+	public String getContactUrl() {
+		return contactUrl;
+	}
+
+	public void setContactUrl(String contactUrl) {
+		this.contactUrl = contactUrl;
+	}
+
+	public String getDocumentationUrl() {
+		return documentationUrl;
+	}
+
+	public void setDocumentationUrl(String documentationUrl) {
+		this.documentationUrl = documentationUrl;
+	}
+
+	public String getServiceEnvironment() {
+		return serviceEnvironment;
+	}
+
+	public void setServiceEnvironment(String serviceEnvironment) {
+		this.serviceEnvironment = serviceEnvironment;
+	}
+
+	@Value("${service.name}")
+	private String serviceName = "";
+	
+	@Value("${service.type.group}")
+	private String serviceTypeGroup = "";
+	
+	@Value("${service.type.artifact}")
+	private String serviceTypeArtifact = "";
+	
+	@Value("${service.type.version}")
+	private String serviceTypeVersion = "";
+	
+	@Value("${service.description}")
+	private String serviceDescription = "";
+	
+	@Value("${service.organization.name}")
+	private String serviceOrganizationName = "";
+	
+	@Value("${service.url}")
+	private String serviceUrl = "";
+
+	@Value("${contact.url}")
+	private String contactUrl = "";
+	
+	@Value("${service.documentation.url}")
+	private String documentationUrl = "";
+	
+	@Value("${service.environment}")
+	private String serviceEnvironment = "";
+	
 
 	/**
 	 * {@code String} property 'drs.rest.url.endpoint'. If not blank, represents the
@@ -184,16 +316,17 @@ public class DosConfiguration {
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("DosConfiguration [irodsHost=").append(irodsHost).append(", irodsZone=").append(irodsZone)
-				.append(", proxyUser=").append(proxyUser).append(", jwtAlgo=").append(jwtAlgo).append(", port=")
-				.append(port).append(", realm=").append(realm).append(", drsServerName=").append(drsServerName)
-				.append(", authScheme=").append(authScheme).append(", sslNegotiationPolicy=")
-				.append(sslNegotiationPolicy).append(", persistDataTypes=").append(persistDataTypes)
-				.append(", detailedDataTypeDetermination=").append(detailedDataTypeDetermination).append(", jwtKey=")
-				.append(jwtKey).append(", drsRestUrlEndpoint=").append(drsRestUrlEndpoint)
-				.append(", drsProvideIrodsUrls=").append(drsProvideIrodsUrls).append("]");
-		return builder.toString();
+		return "DosConfiguration [irodsHost=" + irodsHost + ", irodsZone=" + irodsZone + ", proxyUser=" + proxyUser
+				+ ", jwtAlgo=" + jwtAlgo + ", port=" + port + ", realm=" + realm + ", drsServerName=" + drsServerName
+				+ ", authScheme=" + authScheme + ", sslNegotiationPolicy=" + sslNegotiationPolicy
+				+ ", persistDataTypes=" + persistDataTypes + ", detailedDataTypeDetermination="
+				+ detailedDataTypeDetermination + ", serviceId=" + serviceId + ", serviceName=" + serviceName
+				+ ", serviceTypeGroup=" + serviceTypeGroup + ", serviceTypeArtifact=" + serviceTypeArtifact
+				+ ", serviceTypeVersion=" + serviceTypeVersion + ", serviceDescription=" + serviceDescription
+				+ ", serviceOrganizationName=" + serviceOrganizationName + ", serviceUrl=" + serviceUrl
+				+ ", contactUrl=" + contactUrl + ", documentationUrl=" + documentationUrl + ", serviceEnvironment="
+				+ serviceEnvironment + ", drsRestUrlEndpoint=" + drsRestUrlEndpoint + ", drsProvideIrodsUrls="
+				+ drsProvideIrodsUrls + "]";
 	}
 
 	public String getProxyUser() {

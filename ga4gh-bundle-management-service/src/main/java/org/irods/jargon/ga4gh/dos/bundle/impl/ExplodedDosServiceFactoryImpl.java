@@ -9,6 +9,7 @@ import org.irods.jargon.extensions.datatyper.DataTypeResolutionServiceFactory;
 import org.irods.jargon.ga4gh.dos.bundle.DosService;
 import org.irods.jargon.ga4gh.dos.bundle.DosServiceFactory;
 import org.irods.jargon.ga4gh.dos.bundlemgmnt.DosBundleManagementService;
+import org.irods.jargon.ga4gh.dos.bundlemgmnt.ServiceInfoService;
 import org.irods.jargon.ga4gh.dos.configuration.DosConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -62,6 +63,11 @@ public class ExplodedDosServiceFactoryImpl implements DosServiceFactory {
 				irodsAccount, this, dosConfiguration);
 		explodedDosServiceImpl.setDataTypeResolutionServiceFactory(dataTypeResolutionServiceFactory);
 		return explodedDosServiceImpl;
+	}
+	
+	@Override
+	public ServiceInfoService instanceServiceInfoService(IRODSAccount irodsAccount) {
+		return new ServiceInfoServiceImpl(this.irodsAccessObjectFactory, irodsAccount, this, dosConfiguration);
 	}
 
 	@Override

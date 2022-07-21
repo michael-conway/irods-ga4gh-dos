@@ -248,6 +248,7 @@
 									default.storage.resource=${jargon.test.irods.resource}
 									ssl.negotiation.policy=${ssl.negotiation.policy}
 									drs.rest.url.endpoint=${drs.rest.url.endpoint}
+									drs.server.name=${drs.server.name}
 									drs.provide.irods.urls=true
 									irods.realm=irods
 									web.interface.url=${web.interface.url}
@@ -255,6 +256,16 @@
 									jwt.algo=${jwt.algo}
 									irodsext.datatyper.persist.data.types=false
 									irodsext.datatyper.detailed.determination=false
+									service.id=theserviceid
+									service.name=servicename
+									service.type.group=service.type.group
+									service.type.artifact=service type artifact
+									service.type.version=0.0.2
+									service.description=test generated service description - iRODS
+									service.organization.name=iRODS
+									service.url=https://github.com/NIEHS/irods-data-repository-service
+									service.environment=serviceenvironment
+									contact.url=https//www.example.org
 								</echo>
 							</target>
 						</configuration>
