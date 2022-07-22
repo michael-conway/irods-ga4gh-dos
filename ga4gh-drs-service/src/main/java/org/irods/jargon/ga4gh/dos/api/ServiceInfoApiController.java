@@ -1,38 +1,26 @@
 package org.irods.jargon.ga4gh.dos.api;
 
-import org.irods.jargon.ga4gh.dos.model.Error;
+import java.util.Optional;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.irods.jargon.core.connection.IRODSAccount;
+import org.irods.jargon.core.connection.IRODSSession;
+import org.irods.jargon.ga4gh.dos.bundle.DosServiceFactory;
+import org.irods.jargon.ga4gh.dos.bundlemgmnt.ServiceInfoService;
+import org.irods.jargon.ga4gh.dos.configuration.DosConfiguration;
 import org.irods.jargon.ga4gh.dos.model.InlineResponse200;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import org.irods.jargon.ga4gh.dos.security.ContextAccountHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.constraints.*;
-import javax.validation.Valid;
-import javax.servlet.http.HttpServletRequest;
-import java.util.Optional;
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2022-06-22T12:15:59.889Z[GMT]")
 @RestController
@@ -43,6 +31,52 @@ public class ServiceInfoApiController implements ServiceInfoApi {
     private final ObjectMapper objectMapper;
 
     private final HttpServletRequest request;
+
+
+    public DosServiceFactory getDosServiceFactory() {
+		return dosServiceFactory;
+	}
+
+	public void setDosServiceFactory(DosServiceFactory dosServiceFactory) {
+		this.dosServiceFactory = dosServiceFactory;
+	}
+
+	public ContextAccountHelper getContextAccountHelper() {
+		return contextAccountHelper;
+	}
+
+	public void setContextAccountHelper(ContextAccountHelper contextAccountHelper) {
+		this.contextAccountHelper = contextAccountHelper;
+	}
+
+	public DosConfiguration getDosConfiguration() {
+		return dosConfiguration;
+	}
+
+	public void setDosConfiguration(DosConfiguration dosConfiguration) {
+		this.dosConfiguration = dosConfiguration;
+	}
+
+	public IRODSSession getIrodsSession() {
+		return irodsSession;
+	}
+
+	public void setIrodsSession(IRODSSession irodsSession) {
+		this.irodsSession = irodsSession;
+	}
+
+	@Autowired
+   	private DosServiceFactory dosServiceFactory;
+
+   	@Autowired
+   	private ContextAccountHelper contextAccountHelper;
+
+   	@Autowired
+   	private DosConfiguration dosConfiguration;
+
+   	@Autowired
+   	private IRODSSession irodsSession;
+
 
     @org.springframework.beans.factory.annotation.Autowired
     public ServiceInfoApiController(ObjectMapper objectMapper, HttpServletRequest request) {
@@ -60,18 +94,25 @@ public class ServiceInfoApiController implements ServiceInfoApi {
         return Optional.ofNullable(request);
     }
 
-    public ResponseEntity<InlineResponse200> getServiceInfo() {
+    @Override
+	public ResponseEntity<InlineResponse200> getServiceInfo() {
+    	log.info("getServiceInfo()");
+    	log.info("dosConfiguration:{}", dosConfiguration);
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
-            try {
-                return new ResponseEntity<InlineResponse200>(objectMapper.readValue("\"\"", InlineResponse200.class), HttpStatus.NOT_IMPLEMENTED);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<InlineResponse200>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+            	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+ 				String name = auth.getName();
+ 				log.info("name:{}", name);
+ 				IRODSAccount irodsAccount = this.contextAccountHelper.irodsAccountFromAuthentication(name);
+
+ 				log.debug("irodsAccount:{}", irodsAccount);
+
+ 				ServiceInfoService serviceInfoService =  dosServiceFactory.instanceServiceInfoService(irodsAccount);
+ 				return new ResponseEntity<>(serviceInfoService.generateServiceInfoFromConfig(), HttpStatus.OK);
+
         }
 
-        return new ResponseEntity<InlineResponse200>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
 
 }

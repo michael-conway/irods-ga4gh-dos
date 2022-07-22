@@ -69,102 +69,6 @@ public class DosConfiguration {
 	
 	@Value("${service.id}")
 	private String serviceId = "";
-	
-	public String getDrsServerName() {
-		return drsServerName;
-	}
-
-	public void setDrsServerName(String drsServerName) {
-		this.drsServerName = drsServerName;
-	}
-
-	public String getServiceId() {
-		return serviceId;
-	}
-
-	public void setServiceId(String serviceId) {
-		this.serviceId = serviceId;
-	}
-
-	public String getServiceName() {
-		return serviceName;
-	}
-
-	public void setServiceName(String serviceName) {
-		this.serviceName = serviceName;
-	}
-
-	public String getServiceTypeGroup() {
-		return serviceTypeGroup;
-	}
-
-	public void setServiceTypeGroup(String serviceTypeGroup) {
-		this.serviceTypeGroup = serviceTypeGroup;
-	}
-
-	public String getServiceTypeArtifact() {
-		return serviceTypeArtifact;
-	}
-
-	public void setServiceTypeArtifact(String serviceTypeArtifact) {
-		this.serviceTypeArtifact = serviceTypeArtifact;
-	}
-
-	public String getServiceTypeVersion() {
-		return serviceTypeVersion;
-	}
-
-	public void setServiceTypeVersion(String serviceTypeVersion) {
-		this.serviceTypeVersion = serviceTypeVersion;
-	}
-
-	public String getServiceDescription() {
-		return serviceDescription;
-	}
-
-	public void setServiceDescription(String serviceDescription) {
-		this.serviceDescription = serviceDescription;
-	}
-
-	public String getServiceOrganizationName() {
-		return serviceOrganizationName;
-	}
-
-	public void setServiceOrganizationName(String serviceOrganizationName) {
-		this.serviceOrganizationName = serviceOrganizationName;
-	}
-
-	public String getServiceUrl() {
-		return serviceUrl;
-	}
-
-	public void setServiceUrl(String serviceUrl) {
-		this.serviceUrl = serviceUrl;
-	}
-
-	public String getContactUrl() {
-		return contactUrl;
-	}
-
-	public void setContactUrl(String contactUrl) {
-		this.contactUrl = contactUrl;
-	}
-
-	public String getDocumentationUrl() {
-		return documentationUrl;
-	}
-
-	public void setDocumentationUrl(String documentationUrl) {
-		this.documentationUrl = documentationUrl;
-	}
-
-	public String getServiceEnvironment() {
-		return serviceEnvironment;
-	}
-
-	public void setServiceEnvironment(String serviceEnvironment) {
-		this.serviceEnvironment = serviceEnvironment;
-	}
 
 	@Value("${service.name}")
 	private String serviceName = "";
@@ -367,6 +271,102 @@ public class DosConfiguration {
 
 	public void setJwtKey(String jwtKey) {
 		this.jwtKey = jwtKey;
+	}
+	
+	public String getDrsServerName() {
+		return drsServerName;
+	}
+
+	public void setDrsServerName(String drsServerName) {
+		this.drsServerName = drsServerName;
+	}
+
+	public String getServiceId() {
+		return serviceId;
+	}
+
+	public void setServiceId(String serviceId) {
+		this.serviceId = serviceId;
+	}
+
+	public String getServiceName() {
+		return serviceName;
+	}
+
+	public void setServiceName(String serviceName) {
+		this.serviceName = serviceName;
+	}
+
+	public String getServiceTypeGroup() {
+		return serviceTypeGroup;
+	}
+
+	public void setServiceTypeGroup(String serviceTypeGroup) {
+		this.serviceTypeGroup = serviceTypeGroup;
+	}
+
+	public String getServiceTypeArtifact() {
+		return serviceTypeArtifact;
+	}
+
+	public void setServiceTypeArtifact(String serviceTypeArtifact) {
+		this.serviceTypeArtifact = serviceTypeArtifact;
+	}
+
+	public String getServiceTypeVersion() {
+		return serviceTypeVersion;
+	}
+
+	public void setServiceTypeVersion(String serviceTypeVersion) {
+		this.serviceTypeVersion = serviceTypeVersion;
+	}
+
+	public String getServiceDescription() {
+		return serviceDescription;
+	}
+
+	public void setServiceDescription(String serviceDescription) {
+		this.serviceDescription = serviceDescription;
+	}
+
+	public String getServiceOrganizationName() {
+		return serviceOrganizationName;
+	}
+
+	public void setServiceOrganizationName(String serviceOrganizationName) {
+		this.serviceOrganizationName = serviceOrganizationName;
+	}
+
+	public String getServiceUrl() {
+		return serviceUrl;
+	}
+
+	public void setServiceUrl(String serviceUrl) {
+		this.serviceUrl = serviceUrl;
+	}
+
+	public String getContactUrl() {
+		return contactUrl;
+	}
+
+	public void setContactUrl(String contactUrl) {
+		this.contactUrl = contactUrl;
+	}
+
+	public String getDocumentationUrl() {
+		return documentationUrl;
+	}
+
+	public void setDocumentationUrl(String documentationUrl) {
+		this.documentationUrl = documentationUrl;
+	}
+
+	public String getServiceEnvironment() {
+		return serviceEnvironment;
+	}
+
+	public void setServiceEnvironment(String serviceEnvironment) {
+		this.serviceEnvironment = serviceEnvironment;
 	}
 
 }

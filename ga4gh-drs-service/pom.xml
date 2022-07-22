@@ -256,16 +256,21 @@
 									jwt.algo=${jwt.algo}
 									irodsext.datatyper.persist.data.types=false
 									irodsext.datatyper.detailed.determination=false
-									service.id=theserviceid
-									service.name=servicename
-									service.type.group=service.type.group
-									service.type.artifact=service type artifact
-									service.type.version=0.0.2
-									service.description=test generated service description - iRODS
+									# service info parameters
+									contact.url=https://www.example.org
+									service.id=test_irods
+									service.name=test irods service
+									service.description=test compose iRODS DRS Service
+									service.url=https://www.example.org
+									# service organization
 									service.organization.name=iRODS
-									service.url=https://github.com/NIEHS/irods-data-repository-service
-									service.environment=serviceenvironment
-									contact.url=https//www.example.org
+									service.documentation.url=http://example.com
+									service.environment=iRODS compose environment
+									
+									## service type
+									service.type.group="service type group"
+									service.type.artifact="service type artifact"
+									service.type.version=1.2.0
 								</echo>
 							</target>
 						</configuration>
