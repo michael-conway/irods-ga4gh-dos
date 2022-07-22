@@ -4,6 +4,7 @@ import org.irods.jargon.core.connection.IRODSAccount;
 import org.irods.jargon.core.pub.IRODSAccessObjectFactory;
 import org.irods.jargon.extensions.datatyper.DataTypeResolutionServiceFactory;
 import org.irods.jargon.ga4gh.dos.bundlemgmnt.DosBundleManagementService;
+import org.irods.jargon.ga4gh.dos.bundlemgmnt.ServiceInfoService;
 import org.irods.jargon.ga4gh.dos.configuration.DosConfiguration;
 
 /**
@@ -63,5 +64,12 @@ public interface DosServiceFactory {
 	void setDataTypeResolutionServiceFactory(DataTypeResolutionServiceFactory dataTypeResolutionServiceFactory);
 
 	DataTypeResolutionServiceFactory getDataTypeResolutionServiceFactory();
+
+	/**
+	 * Return a service that can extract service information about this DRS implementation, organization, etc
+	 * @param irodsAccount {@link IRODSAccount}
+	 * @return {@link ServiceInfoService}
+	 */
+	ServiceInfoService instanceServiceInfoService(IRODSAccount irodsAccount);
 
 }

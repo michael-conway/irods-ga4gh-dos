@@ -221,6 +221,21 @@
 									jwt.algo=${jwt.algo}
 									irodsext.datatyper.persist.data.types=false
 									irodsext.datatyper.detailed.determination=false
+									# service info parameters
+									contact.url=https://www.example.org
+									service.id=test_irods
+									service.name=test irods service
+									service.description=test compose iRODS DRS Service
+									service.url=https://www.example.org
+									# service organization
+									service.organization.name=iRODS
+									service.documentation.url=http://example.com
+									service.environment=iRODS compose environment
+									
+									## service type
+									service.type.group="service type group"
+									service.type.artifact="service type artifact"
+									service.type.version=1.2.0
 								
 								</echo>
 							</target>
