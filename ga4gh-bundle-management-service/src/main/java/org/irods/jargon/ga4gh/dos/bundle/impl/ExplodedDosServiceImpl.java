@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.irods.jargon.core.checksum.ChecksumValue;
@@ -30,7 +31,9 @@ import org.irods.jargon.core.query.JargonQueryException;
 import org.irods.jargon.core.query.MetaDataAndDomainData;
 import org.irods.jargon.core.query.QueryConditionOperators;
 import org.irods.jargon.core.query.RodsGenQueryEnum;
+import org.irods.jargon.core.utils.IRODSDataConversionUtil;
 import org.irods.jargon.core.utils.MiscIRODSUtils;
+import org.irods.jargon.dataprofile.DataTypeResolutionService;
 import org.irods.jargon.extensions.datatyper.DataTypeResolutionServiceFactory;
 import org.irods.jargon.ga4gh.dos.bundle.AbstractDosService;
 import org.irods.jargon.ga4gh.dos.bundle.DosService;
@@ -201,6 +204,7 @@ public class ExplodedDosServiceImpl extends AbstractDosService implements DosSer
 		}
 
 		log.info("bundleInfoAndPath:{}", bundleInfoAndPath);
+		
 
 		try {
 			DataObjectAO dataObjectAO = this.getIrodsAccessObjectFactory().getDataObjectAO(getIrodsAccount());
@@ -252,7 +256,7 @@ public class ExplodedDosServiceImpl extends AbstractDosService implements DosSer
 	private void addAccessUrlsForBundleObjectList(IrodsDataObject irodsDataObject, IRODSFile irodsFile, String drsUrl) {
 		IrodsAccessMethod irodsAccessMethod;
 		StringBuilder sb = new StringBuilder(drsUrl);
-		sb.append("/");
+		sb.append("/objects/");
 		sb.append(irodsDataObject.getGuid());
 		irodsAccessMethod = new IrodsAccessMethod();
 		irodsAccessMethod.setUrl(sb.toString());
@@ -425,9 +429,12 @@ public class ExplodedDosServiceImpl extends AbstractDosService implements DosSer
 				irodsDataObject.setFileName(irodsFile.getName());
 				irodsDataObject.setGuid(row.getColumn(2));
 				irodsDataObject.setAbsolutePath(irodsFile.getAbsolutePath());
+				irodsDataObject.setCreateDate(IRODSDataConversionUtil.getDateFromIrodsValueAsLong(irodsFile.lastModified()));
+				irodsDataObject.setModifyDate(IRODSDataConversionUtil.getDateFromIrodsValueAsLong(irodsFile.lastModified()));
 				StringBuilder sb = new StringBuilder();
 				sb.append("drs://");
 				sb.append(this.getDosConfiguration().getDrsServerUrl());
+			
 
 				addAccessUrlsForBundleObjectList(irodsDataObject, irodsFile, sb.toString());
 

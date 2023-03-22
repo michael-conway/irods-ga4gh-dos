@@ -5,8 +5,8 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>gov.nih.niehs.ods</groupId>
-		<artifactId>ga4gh-dos</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<artifactId>ga4gh-drs</artifactId>
+		<version>0.0.2-SNAPSHOT</version>
 	</parent>
 	<artifactId>ga4gh-bundle-management-service</artifactId>
 	<name>ga4gh bundle management service</name>
@@ -56,10 +56,10 @@
 			<artifactId>commons-codec</artifactId>
 		</dependency>
 
-		<dependency>
+		<!--<dependency>
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
-		</dependency>
+		</dependency>-->
 		<!-- Bean Validation API support -->
 		<dependency>
 			<groupId>javax.validation</groupId>
@@ -88,7 +88,7 @@
 						<id>0</id>
 						<phase>validate</phase>
 						<configuration>
-							<tasks>
+							<target>
 								<delete
 									file="${basedir}/src/test/resources/testing.properties" />
 								<touch
@@ -150,11 +150,8 @@
 									test.option.gsi.file=${test.option.gsi.file}
 									test.option.mount.basedir=${test.option.mount.basedir}
 									test.option.python=${test.option.python}
-
-
-
 								</echo>
-							</tasks>
+							</target>
 						</configuration>
 						<goals>
 							<goal>run</goal>
@@ -165,13 +162,13 @@
 						<id>2</id>
 						<phase>validate</phase>
 						<configuration>
-							<tasks>
+							<target>
 								<delete
 									file="${basedir}/src/test/resources/test.dos.properties" />
 								<touch
 									file="${basedir}/src/test/resources/test.dos.properties"
 									mkdirs="true" />
-								<echo
+								<echo>
 									file="${basedir}/src/test/resources/test.dos.properties"
 									append="true">
 									irods.host=${jargon.test.irods.host}
@@ -184,6 +181,7 @@
 									default.storage.resource=${jargon.test.irods.resource}
 									ssl.negotiation.policy=${ssl.negotiation.policy}
 									drs.rest.url.endpoint=${drs.rest.url.endpoint}
+									drs.server.name=${drs.server.name}
 									drs.provide.irods.urls=true
 									irods.realm=irods
 									web.interface.url=${web.interface.url}
@@ -191,8 +189,23 @@
 									jwt.algo=${jwt.algo}
 									irodsext.datatyper.persist.data.types=false
 									irodsext.datatyper.detailed.determination=false
+									# service info parameters
+									contact.url=https://www.example.org
+									service.id=test_irods
+									service.name=test irods service
+									service.description=test compose iRODS DRS Service
+									service.url=https://www.example.org
+									# service organization
+									service.organization.name=iRODS
+									service.documentation.url=http://example.com
+									service.environment=iRODS compose environment
+									
+									## service type
+									service.type.group="service type group"
+									service.type.artifact="service type artifact"
+									service.type.version=1.2.0
 								</echo>
-							</tasks>
+							</target>
 						</configuration>
 						<goals>
 							<goal>run</goal>

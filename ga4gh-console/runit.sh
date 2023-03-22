@@ -9,5 +9,5 @@ else
    echo "No cert to import"
 fi
 
-echo "exec drscon.sh to run drs console"
-sh
+echo "execing drscon.sh to run drs console"
+tail -f /dev/null

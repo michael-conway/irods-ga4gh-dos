@@ -3,10 +3,10 @@ package org.irods.jargon.ga4gh.dos.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.Serializable;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -15,9 +15,12 @@ import javax.validation.constraints.*;
  * AccessURL
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-08-22T19:13:50.266Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2022-06-22T12:15:59.889Z[GMT]")
 
-public class AccessURL   {
+
+public class AccessURL  implements Serializable  {
+  private static final long serialVersionUID = 1L;
+
   @JsonProperty("url")
   private String url = null;
 
@@ -33,12 +36,11 @@ public class AccessURL   {
   /**
    * A fully resolvable URL that can be used to fetch the actual object bytes.
    * @return url
-  **/
-  @ApiModelProperty(required = true, value = "A fully resolvable URL that can be used to fetch the actual object bytes.")
-  @NotNull
+   **/
+  @Schema(required = true, description = "A fully resolvable URL that can be used to fetch the actual object bytes.")
+      @NotNull
 
-
-  public String getUrl() {
+    public String getUrl() {
     return url;
   }
 
@@ -53,7 +55,7 @@ public class AccessURL   {
 
   public AccessURL addHeadersItem(String headersItem) {
     if (this.headers == null) {
-      this.headers = new ArrayList<>();
+      this.headers = new ArrayList<String>();
     }
     this.headers.add(headersItem);
     return this;
@@ -62,11 +64,10 @@ public class AccessURL   {
   /**
    * An optional list of headers to include in the HTTP request to `url`. These headers can be used to provide auth tokens required to fetch the object bytes.
    * @return headers
-  **/
-  @ApiModelProperty(example = "{\"Authorization\":\"Basic Z2E0Z2g6ZHJz\"}", value = "An optional list of headers to include in the HTTP request to `url`. These headers can be used to provide auth tokens required to fetch the object bytes.")
-
-
-  public List<String> getHeaders() {
+   **/
+  @Schema(example = "Authorization: Basic Z2E0Z2g6ZHJz", description = "An optional list of headers to include in the HTTP request to `url`. These headers can be used to provide auth tokens required to fetch the object bytes.")
+  
+    public List<String> getHeaders() {
     return headers;
   }
 
@@ -115,4 +116,3 @@ public class AccessURL   {
     return o.toString().replace("\n", "\n    ");
   }
 }
-

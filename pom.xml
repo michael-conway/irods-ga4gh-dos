@@ -1,26 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>gov.nih.niehs.ods</groupId>
-	<artifactId>ga4gh-dos</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>ga4gh data object service</name>
+	<artifactId>ga4gh-drs</artifactId>
+	<version>0.0.2-SNAPSHOT</version>
+	<name>ga4gh data repository service for iRODS</name>
 	<packaging>pom</packaging>
 	<properties>
-		<java.version>1.8</java.version>
+		<java.version>11</java.version>
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
-		<springfox-version>2.7.0</springfox-version>
-		<jargon.version>4.3.1.0-SNAPSHOT</jargon.version>
+		<jargon.version>4.3.2.6-SNAPSHOT</jargon.version>
 		<spring.security.version>4.2.4.RELEASE</spring.security.version>
-		<spring.boot.starter.version>1.5.9.RELEASE</spring.boot.starter.version>
+		<springfox-version>2.7.0</springfox-version>
 	</properties>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>1.5.9.RELEASE</version>
 	</parent>
+	<profiles>
+		<profile>
+			<id>jdk11</id>
+			<activation>
+				<jdk>[11,)</jdk>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>com.sun.xml.ws</groupId>
+					<artifactId>jaxws-rt</artifactId>
+					<version>2.3.3</version>
+					<type>pom</type>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
+	<repositories>
+		<repository>
+			<id>dice.repository snaps</id>
+			<name>dice.repository.snapshots</name>
+			<url>https://raw.github.com/DICE-UNC/DICE-Maven/master/snapshots</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>dice.repository</id>
+			<name>dice.repository</name>
+			<url>https://raw.github.com/DICE-UNC/DICE-Maven/master/releases</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>maven2-repository.dev.java.net</id>
+			<name>Java.net Repository for Maven</name>
+			<url>http://download.java.net/maven/2/</url>
+			<layout>default</layout>
+		</repository>
+	</repositories>
+	<distributionManagement>
+		<repository>
+			<id>internal.repo</id>
+			<name>internal.repo</name>
+			<url>file://${git.repo.root}/releases</url>
+		</repository>
+		<snapshotRepository>
+			<id>internal.repo.snapshot</id>
+			<name>internal.repo.snapshot</name>
+			<url>file://${git.repo.root}/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -55,35 +115,14 @@
 				<version>1.10.19</version>
 				<scope>test</scope>
 			</dependency>
-			<!-- https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java -->
-			<dependency>
-				<groupId>com.google.protobuf</groupId>
-				<artifactId>protobuf-java</artifactId>
-				<version>3.5.1</version>
-			</dependency>
-			<!--SpringFox dependencies -->
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger2</artifactId>
-			<version>${springfox-version}</version>
-		</dependency>
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger-ui</artifactId>
-			<version>${springfox-version}</version>
-		</dependency>
-		<dependency>
-				<groupId>com.github.joschi.jackson</groupId>
-				<artifactId>jackson-datatype-threetenbp</artifactId>
-				<version>2.6.4</version>
-		</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<modules>
 		<module>ga4gh-common</module>
-		<module>ga4gh-dos-service</module>
+		<module>ga4gh-drs-service</module>
 		<module>ga4gh-bundle-management-service</module>
 		<module>ga4gh-console</module>
 	</modules>
+
 
 </project>
